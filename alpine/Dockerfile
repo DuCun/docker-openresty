@@ -147,8 +147,13 @@ RUN apk add --no-cache --virtual .build-deps \
     && curl -fSL https://openresty.org/download/openresty-${RESTY_VERSION}.tar.gz -o openresty-${RESTY_VERSION}.tar.gz \
     && tar xzf openresty-${RESTY_VERSION}.tar.gz \
     && cd /tmp/openresty-${RESTY_VERSION} \
+    && mkdir -p modules \
+    && curl -fSL https://github.com/FRiCKLE/ngx_cache_purge/archive/refs/tags/2.3.tar.gz -o ./modules/ngx_cache_purge-2.3.tar.gz \
+    && tar xzf ./modules/ngx_cache_purge-2.3.tar.gz -C ./modules \
+    && rm -rf ./modules/ngx_cache_purge-2.3.tar.gz \
     && if [ -n "${RESTY_EVAL_POST_DOWNLOAD_PRE_CONFIGURE}" ]; then eval $(echo ${RESTY_EVAL_POST_DOWNLOAD_PRE_CONFIGURE}); fi \
     && eval ./configure -j${RESTY_J} ${_RESTY_CONFIG_DEPS} ${RESTY_CONFIG_OPTIONS} ${RESTY_CONFIG_OPTIONS_MORE} ${RESTY_LUAJIT_OPTIONS} ${RESTY_PCRE_OPTIONS} \
+    --add-module=./modules/ngx_cache_purge-2.3 \
     && make -j${RESTY_J} \
     && make -j${RESTY_J} install \
     && cd /tmp \
