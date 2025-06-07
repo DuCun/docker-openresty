@@ -62,7 +62,8 @@ jobs:
       - name: Build and push ${{ inputs.version != '' && inputs.version || '' }}${{ inputs.version != '' && '-' || '' }}${{ matrix.system }}
         uses: docker/build-push-action@v6
         with:
-          context: ./${{ matrix.system }}/Dockerfile
+          context: ./${{ matrix.system }}
+          file: ./${{ matrix.system }}/Dockerfile
           push: true
           tags: |
             xiaomoy/openresty:${{ inputs.version != '' && inputs.version || '' }}${{ inputs.version != '' && '-' || '' }}${{ matrix.system }}
@@ -70,7 +71,8 @@ jobs:
       - name: Build and push ${{ inputs.version != '' && inputs.version || '' }}${{ inputs.version != '' && '-' || '' }}${{ matrix.system }}-fat
         uses: docker/build-push-action@v6
         with:
-          context: ./${{ matrix.system }}/Dockerfile.fat
+          context: ./${{ matrix.system }}
+          file: ./${{ matrix.system }}/Dockerfile.fat
           push: true
           tags: |
             xiaomoy/openresty:${{ inputs.version != '' && inputs.version || '' }}${{ inputs.version != '' && '-' || '' }}${{ matrix.system }}-fat
