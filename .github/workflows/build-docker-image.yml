@@ -59,18 +59,18 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and push ${{ inputs.version != '' && format('{}-', inputs.version) || '' }}${{ matrix.system }}
+      - name: Build and push ${{ inputs.version != '' && inputs.version || '' }}${{ inputs.version != '' && '-' || '' }}${{ matrix.system }}
         uses: docker/build-push-action@v6
         with:
           context: ./${{ matrix.system }}/Dockerfile
           push: true
           tags: |
-            xiaomoy/openresty:${{ inputs.version != '' && format('{}-', inputs.version) || '' }}${{ matrix.system }}
+            xiaomoy/openresty:${{ inputs.version != '' && inputs.version || '' }}${{ inputs.version != '' && '-' || '' }}${{ matrix.system }}
 
-      - name: Build and push ${{ inputs.version != '' && format('{}-', inputs.version) || '' }}${{ matrix.system }}-fat
+      - name: Build and push ${{ inputs.version != '' && inputs.version || '' }}${{ inputs.version != '' && '-' || '' }}${{ matrix.system }}-fat
         uses: docker/build-push-action@v6
         with:
           context: ./${{ matrix.system }}/Dockerfile.fat
           push: true
           tags: |
-            xiaomoy/openresty:${{ inputs.version != '' && format('{}-', inputs.version) || '' }}${{ matrix.system }}-fat
+            xiaomoy/openresty:${{ inputs.version != '' && inputs.version || '' }}${{ inputs.version != '' && '-' || '' }}${{ matrix.system }}-fat
