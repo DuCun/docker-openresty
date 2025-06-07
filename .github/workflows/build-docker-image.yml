@@ -1,0 +1,76 @@
+name: Build Docker Image
+
+on:
+#  push:
+#    branches: [ main ]
+
+  workflow_dispatch:
+    inputs:
+  #     system:
+  #       description: 'alpine'
+  #       required: true
+  #       default: 'alpine' 
+  #       type: choice
+  #       options:
+  #       - alpine
+  #       - alpine-fat
+
+      version:
+        description: 'Input Build Version'
+        required: true
+        default: ''
+        type: string
+
+  workflow_call:
+    inputs:
+      # system:
+      #   required: true
+      #   type: string
+      version:
+        required: true
+        type: string
+
+  #schedule:
+  #  - cron: '0 12 * * 6'
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        system:
+          - "alpine"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # - name: Prepare files
+      #   run: |
+      #     cp nginx.vh.default.conf ./${{ inputs.system }}
+      #     cp nginx.conf ./${{ inputs.system }}
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push ${{ inputs.version != '' && format('{}-', inputs.version) || '' }}${{ matrix.system }}
+        uses: docker/build-push-action@v6
+        with:
+          context: ./${{ matrix.system }}/Dockerfile
+          push: true
+          tags: |
+            xiaomoy/openresty:${{ inputs.version != '' && format('{}-', inputs.version) || '' }}${{ matrix.system }}
+
+      - name: Build and push ${{ inputs.version != '' && format('{}-', inputs.version) || '' }}${{ matrix.system }}-fat
+        uses: docker/build-push-action@v6
+        with:
+          context: ./${{ matrix.system }}/Dockerfile.fat
+          push: true
+          tags: |
+            xiaomoy/openresty:${{ inputs.version != '' && format('{}-', inputs.version) || '' }}${{ matrix.system }}-fat
