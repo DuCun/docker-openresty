@@ -48,10 +48,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # - name: Prepare files
-      #   run: |
-      #     cp nginx.vh.default.conf ./${{ inputs.system }}
-      #     cp nginx.conf ./${{ inputs.system }}
+      - name: Prepare files
+        run: |
+          cp nginx.vh.default.conf ./${{ matrix.system }}
+          cp nginx.conf ./${{ matrix.system }}
 
       - name: Login to DockerHub
         uses: docker/login-action@v3
