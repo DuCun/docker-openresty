@@ -59,6 +59,15 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Build and push ${{ matrix.system }}
+        uses: docker/build-push-action@v6
+        with:
+          context: ./${{ matrix.system }}
+          file: ./${{ matrix.system }}/Dockerfile
+          push: true
+          tags: |
+            xiaomoy/openresty:${{ matrix.system }}
+
       - name: Build and push ${{ inputs.version != '' && inputs.version || '' }}${{ inputs.version != '' && '-' || '' }}${{ matrix.system }}
         uses: docker/build-push-action@v6
         with:
