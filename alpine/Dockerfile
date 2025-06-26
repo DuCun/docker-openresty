@@ -178,12 +178,19 @@ RUN apk add --no-cache --virtual .build-deps \
     && tar xzf openresty-${RESTY_VERSION}.tar.gz \
     && cd /tmp/openresty-${RESTY_VERSION} \
     && mkdir -p modules \
-    && curl -fSL https://github.com/FRiCKLE/ngx_cache_purge/archive/refs/tags/2.3.tar.gz -o ./modules/ngx_cache_purge-2.3.tar.gz \
-    && tar xzf ./modules/ngx_cache_purge-2.3.tar.gz -C ./modules \
-    && rm -rf ./modules/ngx_cache_purge-2.3.tar.gz \
+    && curl -fSL https://github.com/nginx-modules/ngx_cache_purge/archive/refs/tags/2.5.3.tar.gz -o ./modules/ngx_cache_purge-2.5.3.tar.gz \
+    && tar xzf ./modules/ngx_cache_purge-2.5.3.tar.gz -C ./modules \
+    && rm -rf ./modules/ngx_cache_purge-2.5.3.tar.gz \
+    && curl -fSL https://github.com/google/ngx_brotli/archive/refs/heads/master.tar.gz -o ./modules/ngx_brotli.tar.gz \
+    && tar xzf ./modules/ngx_brotli.tar.gz -C ./modules \
+    && rm -rf ./modules/ngx_brotli.tar.gz \
+    && curl -fSL https://github.com/google/brotli/archive/ed738e842d2fbdf2d6459e39267a633c4a9b2f5d.tar.gz -o ./modules/ngx_brotli_deps.tar.gz \
+    && tar xzf ./modules/ngx_brotli_deps.tar.gz -C ./modules/ngx_brotli-master/deps/brotli --strip-components=1 \
+    && rm -rf ./modules/ngx_brotli_deps.tar.gz \
     && if [ -n "${RESTY_EVAL_POST_DOWNLOAD_PRE_CONFIGURE}" ]; then eval $(echo ${RESTY_EVAL_POST_DOWNLOAD_PRE_CONFIGURE}); fi \
     && eval ./configure -j${RESTY_J} ${_RESTY_CONFIG_DEPS} ${RESTY_CONFIG_OPTIONS} ${RESTY_CONFIG_OPTIONS_MORE} ${RESTY_LUAJIT_OPTIONS} ${RESTY_PCRE_OPTIONS} \
-    --add-module=./modules/ngx_cache_purge-2.3 \
+    --add-module=./modules/ngx_cache_purge-2.5.3 \
+    --add-module=./modules/ngx_brotli-master \
     && if [ -n "${RESTY_EVAL_PRE_MAKE}" ]; then eval $(echo ${RESTY_EVAL_PRE_MAKE}); fi \
     && make -j${RESTY_J} \
     && make -j${RESTY_J} install \
