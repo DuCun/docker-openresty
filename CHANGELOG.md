@@ -1,5 +1,60 @@
-Changelog
-=========
+`docker-openresty` Changelog
+============================
+
+## 1.27.1.2-11 (2026-02-09)
+
+ * `latest` tag matches latest tagged `bookworm` release (#294)
+ * Rebuilt for upstream OpenSSL patch updates
+
+## 1.27.1.2-10 (2026-02-05)
+
+ * Upgrade `alpine` built-from source flavor to Alpine 3.22.3 (#291)
+
+## 1.27.1.2-9 (2026-02-03)
+
+ * Upgrade OpenSSL to 3.5.5 (fixes CVE-2025-15467) (#291)
+ * ci: Resolve tagged-release issue
+
+## 1.27.1.2-8 (2026-01-11)
+
+ * ci: Resolve tagged-release issue
+ 
+ ## 1.27.1.2-8 (2026-01-11)
+
+ * ci: Resolved Docker Hub mirroring issues
+
+Here are the image bases:
+
+ * `openresty/openresty`
+ * `docker.io/openresty/openresty` (fully qualified name of above)
+ * `ghcr.io/neomantra/openresty`
+
+## 1.27.1.2-7 (2026-01-11)
+
+ * Migrate from Travis to GitHub Actions.  
+
+Thank you [Travis](https://travis-ci.com) for all your years of service!
+
+## 1.27.1.2-6 (2025-11-08)
+
+* Images are now mirrored to `ghcr.io/neomantra/openresty` (#270)
+* Install `-dev` libraries in `bookworm-buildpack` flavor ([#283](https://github.com/openresty/docker-openresty/issues/283))
+* Extracted custom image build documentation to [`BUILDING.md`](./BUILDING.md)
+
+## 1.27.1.2-5 (2025-10-30)
+
+ * Upgrade OpenSSL to 3.4.3
+ * Upgrade `alpine` built-from source flavor to Alpine 3.22.2
+
+## 1.27.1.2-4 (2025-09-03)
+
+ * Upgrade `alpine` built-from source flavor to Alpine 3.22.1
+
+## 1.27.1.2-3 (2025-07-30)
+
+ * Update LuaRocks to `3.12.2` (#276)
+ * Enable PCRE JIT on `s390x` platform. (#208, #278, [upstream [#834](https://github.com/openresty/openresty/issues/834))
+   * This was possible with OpenResty `1.27`, as it adopted PCRE `10`. The prior PCRE `8` did not support JIT on `s390x`.
 
 ## 1.27.1.2-2 (2025-06-16)
 
